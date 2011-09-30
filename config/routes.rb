@@ -1,4 +1,8 @@
 Blarg::Application.routes.draw do
+  root :to => 'home#index'
+
+  resources :articles
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
