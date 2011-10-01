@@ -12,6 +12,9 @@ gem 'dynamic_form'
 # User authentication with the Devise gem
 gem 'devise'
 
+# For Markdown rendering (and great justice!)
+gem 'redcarpet'
+
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -14,7 +14,7 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(params[:article])
     if @article.save
-
+      flash[:success] = "Your new article has been posted!"
     end
 
     respond_with @article
@@ -38,7 +38,9 @@ class ArticlesController < ApplicationController
     @article.title = params[:article][:title]
     @article.body = params[:article][:body]
 
-    @article.save
+    if @article.save
+      flash[:success] = "Your changes to \"#{@article.title}\" have been saved!"
+    end
 
     redirect_to :action => :show, :id => @article.id
   end
