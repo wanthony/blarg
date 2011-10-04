@@ -1,0 +1,8 @@
+<div class="well">
+  <%= comment.body %>
+  <p><small>Posted <%= time_ago_in_words(comment.created_at) %> ago.</small><p>
+
+  <% if is_admin? %>
+    <p><%= link_to "Delete", article_comment_path(comment.article, comment), :method => :delete %></p>
+  <% end -%>
+</div>

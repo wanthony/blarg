@@ -1,9 +1,32 @@
 <div class="well">
   <h2><%= link_to article.title, article_path(article) %></h2>
   <p><%= markdown(article.body) %></p>
-  <p>
+
+  <p><small>Posted <%= time_ago_in_words(article.created_at) %> ago.</small></p>
+
   <% if is_admin? %>
-    <%= link_to "Edit", edit_article_path(article) %>
+    <p><%= link_to "Edit", edit_article_path(article) %></p>
   <% end -%>
 </div>
+
+<% include_comments = true if local_assigns[:include_comments].nil? %>
+<% if include_comments %>
+  <h3>Comments for "<%=article.title%>"</h3>
+  <div id="add_comment_form">
+    <%= form_for [ @article, @new_comment ], :html => {:class => 'form-stacked'} do |f| %>
+      <div class="clearfix">
+        <label for="body"><strong>Body</strong></label>
+        <div class="input"><%= f.text_area :body, :class => 'xxlarge', :rows => 5%></div>
+      </div>
+
+      <div class="actions">
+        <%= f.submit :class => 'btn primary' %>
+      </div>
+    <% end -%>
+  </div>
+  <button id="add_comment" class="btn">Add Comment</button>
+  <div id="article_comments">
+    <%= render :partial => "comments/comment", :collection => article.comments %>
+  </div>
+<% end -%>
 

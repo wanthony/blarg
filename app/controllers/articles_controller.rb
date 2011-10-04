@@ -22,6 +22,9 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.find(params[:id])
+    @new_comment = Comment.new(:article_id => @article.id)
+
+    session[:return_to] = request.referer
 
     respond_with @article
   end
