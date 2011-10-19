@@ -10,25 +10,27 @@ $(document).bind('ready', ->
   )
 
   $('#add_comment_form').hide()
-)
 
-$('#add_comment_form.btn.primary').click(->
-  $.post('/comments/create', {
-    comment:
-      body: $('#comment_body').text()
-  }, (data) ->
-    $.getJSON("#{window.location.pathname}/comments.json", (data) ->
-      $('#article_comments').html('')
+  $('#submit_comment').click(->
+    article_id = window.location.pathname.match(/articles\/(\d+)/)[1]
 
-      $.each(data, (key, val) ->
-        $('#article_comments').append("""
-          <div class="well">
-            #{val.body}
-          </div>
-        """)
+    $.post("/articles/#{article_id}/comments/create", {
+      comment:
+        body: $('#comment_body').text()
+        article_id: article_id
+    }, (data) ->
+      $.getJSON("#{window.location.pathname}/comments.json", (data) ->
+        $('#article_comments').html('')
+
+        $.each(data, (key, val) ->
+          $('#article_comments').append("""
+            <div class="well">
+              #{val.body}
+            </div>
+          """)
+        )
       )
     )
   )
-
-  false
 )
+

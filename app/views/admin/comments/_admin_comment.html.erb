@@ -1,0 +1,10 @@
+<a href="#" id="article_<%= admin_comment.id %>">
+  <%= admin_comment.title %> (<%= admin_comment.comments.count %> comments)
+</a><br />
+<div id="comments_<%= admin_comment.id %>">
+  <% admin_comment.comments.each do |c| %>
+    <%= c.body[0..50] %><%=raw '<a href="#" id="expand_comment_'+c.id.to_s+'">...</a>' if c.body.length > 50 %>
+    <%= link_to "Delete", article_comment_path(c.article, c), :method => :delete %>
+    <br />
+  <% end -%>
+</div>

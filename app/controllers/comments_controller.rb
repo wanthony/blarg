@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  respond_to :html, :json
+  respond_to :html, :json, :js
 
   def index
     @comments = Comment.where(:article_id => params[:article_id]).all
@@ -11,10 +11,14 @@ class CommentsController < ApplicationController
     @comment = Comment.create(params[:comment])
 
     if @comment.save
-      flash[:success] = "Your comment has been saved!"
+      @msg = "Your comment has been saved!"
+    else
+      @msg = "Your comment could not be saved!"
     end
 
-    redirect_to :controller => 'articles', :action => 'show'
+    @comments = Article.find(@comment.article_id).comments
+
+    respond_with @comment
   end
 
   def destroy
@@ -25,6 +29,7 @@ class CommentsController < ApplicationController
       @comment.delete
 
       flash[:warning] = "Comment ##{comment_id} has been deleted from \"#{comment_article_title}\""
+      session[:return_to] = article_path(@comment.article)
     end
 
     redirect_to session[:return_to]

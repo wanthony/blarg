@@ -1,0 +1,5 @@
+<%= article.title %><br />
+<%= article.comments.each do |c| %>
+  <%= c.body[0..50] %><%= "..." if c.body.length > 50 %>
+<% end -%>
+

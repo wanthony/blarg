@@ -1,0 +1,19 @@
+var $alert = $('.alert-message.success'), $comments = $('#article_comments');
+
+$alert.children().first().text('Your comment has been saved!');
+$alert.fadeIn();
+
+$comments.html('');
+
+<% @comments.each do |comment| %>
+  $comments.append('<div class="well" id="comment_<%= comment.id %>">') \
+    .append(comment.body) \
+    .append('<p><small>Posted <%= time_ago_in_words(comment.created_at) %> ago.</small></p>');
+
+  <% if is_admin? %>
+      $('#comment_<%= comment.id %>').append('<p><%= link_to "Delete", article_comment_path(comment.article, comment), :method => :delete %></p>');
+  <% end -%>
+
+  $comments.append('</div>');
+<% end -%>
+

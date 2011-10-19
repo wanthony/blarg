@@ -11,9 +11,15 @@
 
 <% include_comments = true if local_assigns[:include_comments].nil? %>
 <% if include_comments %>
+  <div class="alert-message success" style="display:none">
+    <strong></strong>
+    <a class="close" href="#">×</a>
+  </div>
+
   <h3>Comments for "<%=article.title%>"</h3>
   <div id="add_comment_form">
-    <%= form_for [ @article, @new_comment ], :html => {:class => 'form-stacked'} do |f| %>
+    <%= form_for [@article, @new_comment], :remote => true, :html => {:class => 'form-stacked'} do |f| %>
+      <%= f.hidden_field :article_id, :value => article.id.to_s %>
       <div class="clearfix">
         <label for="body"><strong>Body</strong></label>
         <div class="input"><%= f.text_area :body, :class => 'xxlarge', :rows => 5%></div>
@@ -25,7 +31,7 @@
     <% end -%>
   </div>
   <button id="add_comment" class="btn">Add Comment</button>
-  <div id="article_comments">
+  <div id="article_comments" style="padding-top: 10px;">
     <%= render :partial => "comments/comment", :collection => article.comments %>
   </div>
 <% end -%>
